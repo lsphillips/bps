@@ -1,0 +1,10 @@
+{
+	"rules" :
+	{
+		"node/shebang" : ["error", {
+			"convertPath" : {
+				"cli/**/*.js" : ["cli/bps\\.js$", "bps.cli.js"]
+			}
+		}]
+	}
+}

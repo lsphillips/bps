@@ -1,0 +1,21 @@
+# Dependencies
+# -----------------
+
+/node_modules
+
+# Build
+# -----------------
+
+/bps.js
+/bps.cjs
+/bps.cli.js
+
+# Pack
+# -----------------
+
+*.tgz
+
+# Testing (Remove)
+# -----------------
+
+/fixtures

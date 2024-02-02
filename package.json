@@ -1,0 +1,100 @@
+{
+	"name" : "bps",
+
+	"version" : "1.0.0",
+
+    "type" : "module",
+
+    "description" : "A library and CLI tool for creating and applying BPS patches.",
+
+	"author" : "Luke Phillips",
+
+	"keywords" :
+	[
+		"binary",
+		"patch",
+		"rom"
+	],
+
+	"homepage" : "https://github.com/lsphillips/bps",
+
+	"bugs" :
+	{
+		"url" : "https://github.com/lsphillips/bps/issues"
+	},
+
+	"repository" :
+	{
+		"type" : "git",
+		"url" : "https://github.com/lsphillips/bps.git"
+	},
+
+	"dependencies" :
+	{
+		"crc-32" : "1.2.2",
+		"commander" : "11.1.0",
+		"chalk-template" : "1.1.0",
+		"fs-extra" : "11.2.0"
+	},
+
+	"devDependencies" :
+	{
+		"eslint" : "8.56.0",
+		"eslint-plugin-import" : "2.29.1",
+		"eslint-plugin-promise" : "6.1.1",
+		"eslint-plugin-node" : "11.1.0",
+		"@stylistic/eslint-plugin-js" : "1.5.4",
+		"eslint-config-protect-me-from-my-stupidity" : "10.0.0",
+        "rollup" : "4.9.6",
+        "@rollup/plugin-terser" : "0.4.4",
+        "mocha" : "10.2.0",
+        "chai" : "5.0.3"
+	},
+
+	"main" : "bps.cjs",
+
+    "exports" :
+    {
+        "node" :
+        {
+            "import" : "./bps.js",
+            "require" : "./bps.cjs"
+        },
+
+        "default" : "./bps.js"
+    },
+
+	"files" :
+    [
+        "/README.md",
+        "/CHANGELOG.md",
+        "/LICENSE.txt",
+        "/bps.js",
+        "/bps.cjs",
+		"/bps.cli.js",
+        "/bps.d.ts"
+    ],
+
+	"bin" :
+	{
+		"bps" : "bps.cli.js"
+	},
+
+	"scripts" :
+	{
+		"test:lint" : "eslint \"**/*.js\" --ignore-path .gitignore",
+        "test:unit" : "mocha \"tests/**/*.test.js\"",
+        "test" : "npm run test:lint && npm run test:unit",
+        "build" : "rollup --config",
+        "prepack" : "npm run test && npm run build"
+	},
+
+	"license" : "MIT",
+
+	"engines" :
+	{
+		"node" : ">=18.0.0"
+	},
+
+	"types" : "bps.d.ts"
+}
