@@ -25,7 +25,7 @@ export enum ActionType
 }
 
 /**
- * Represents an action that copies bytes from the source to the target.
+ * Represents a BPS action that copies bytes from the source to the target.
  */
 export interface SourceReadAction
 {
@@ -41,7 +41,7 @@ export interface SourceReadAction
 }
 
 /**
- * Represents an action that writes data stored in the patch to the target.
+ * Represents a BPS action that writes data stored in the patch to the target.
  */
 export interface TargetReadAction
 {
@@ -51,13 +51,18 @@ export interface TargetReadAction
 	type : ActionType.TargetRead;
 
 	/**
+	 * The number of bytes to write to the target.
+	 */
+	length : number;
+
+	/**
 	 * The bytes to write to the target.
 	 */
 	bytes : number[];
 }
 
 /**
- * Represents an action that seeks to a location of the source and copies data from that location to the target.
+ * Represents a BPS action that seeks to a location of the source and copies data from that location to the target.
  */
 export interface SourceCopyAction
 {
@@ -78,7 +83,7 @@ export interface SourceCopyAction
 }
 
 /**
- * Represents an action that seeks to a location of the target and copies data from that location to the target.
+ * Represents a BPS action that seeks to a location of the target and copies data from that location to the target.
  */
 export interface TargetCopyAction
 {
@@ -99,9 +104,9 @@ export interface TargetCopyAction
 }
 
 /**
- * Represents a BPS patch.
+ * Represents BPS instruction set.
  */
-export interface Patch
+export interface PatchInstructions
 {
 	/**
 	 * The expected size (in bytes) that the source should be.
@@ -111,7 +116,7 @@ export interface Patch
 	/**
 	 * A CRC32 checksum used to verify the source.
 	 */
-	sourceChecksum : number,
+	sourceChecksum : number;
 
 	/**
 	 * The expected size (in bytes) that the target should be.
@@ -121,25 +126,52 @@ export interface Patch
 	/**
 	 * A CRC32 checksum used to verify the target.
 	 */
-	targetChecksum : number,
+	targetChecksum : number;
 
 	/**
 	 * The actions describing how to sequentially create a new target from the source.
 	 */
 	actions : (SourceReadAction | TargetReadAction | SourceCopyAction | TargetCopyAction)[];
+}
+
+/**
+ * Represents a BPS patch.
+ */
+export interface Patch
+{
+	/**
+	 * The BPS patch.
+	 */
+	instructions : PatchInstructions;
 
 	/**
-	 * A CRC32 checksum used to verify the patch itself.
+	 * A CRC32 checksum used to verify the patch.
 	 */
-	patchChecksum : number;
+	checksum : number;
+}
+
+/**
+ * Represents a binary BPS patch.
+ */
+export interface BinaryPatch
+{
+	/**
+	 * The buffer containing the complete patch, including the BPS header and the CRC32 patch checksum.
+	 */
+	buffer : Uint8Array;
+
+	/**
+	 * The CRC32 checksum used to verify the patch.
+	 */
+	checksum : number;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 /**
- * Parses and validates a binary patch.
+ * Parses a BPS patch from a binary format.
  *
- * @returns The parsed patch file.
+ * @returns The parsed patch.
  *
  * @param patch The patch to be parsed.
  *
@@ -149,14 +181,37 @@ export interface Patch
 export function parse(patch : Uint8Array) : Patch;
 
 /**
- * Applies a patch to a binary source.
+ * Applies a BPS instruction set to a binary source.
  *
  * @returns The resulting target.
  *
- * @param patch  The patch to be applied. This needs to be an already parsed patch, see {@link parse}.
- * @param source The binary source to be patched.
+ * @param instructions The instruction set to be applied.
+ * @param source       The binary source to be patched.
  *
- * @throws {@link Error} When the source does not match the checksum stated in the patch.
- * @throws {@link Error} When the resulting target does not match the checksum states in the patch.
+ * @throws {@link Error} When the source does not match the expected checksum.
+ * @throws {@link Error} When the resulting target does not match the expected checksum.
  */
-export function apply(patch : Patch, source : Uint8Array) : Uint8Array;
+export function apply(instructions : PatchInstructions, source : Uint8Array) : Uint8Array;
+
+/**
+ * Builds a BPS instruction set from a binary source and target.
+ *
+ * This prioritizes to produce a small set of instructions over being a fast operation.
+ *
+ * @returns The resulting patch.
+ *
+ * @param source The binary source.
+ * @param target The binary target to be created after the source is patched.
+ */
+export function build(source : Uint8Array, target : Uint8Array) : PatchInstructions;
+
+/**
+ * Serializes a BPS instruction set into a binary BPS buffer.
+ *
+ * The binary result includes the BPS header and the CRC32 checksum of the patch.
+ *
+ * @returns The serialized binary patch.
+ *
+ * @param patch The instruction set to be serialized.
+ */
+export function serialize(instructions : PatchInstructions) : BinaryPatch;

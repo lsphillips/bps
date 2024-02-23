@@ -1,7 +1,7 @@
 {
 	"name" : "bps",
 
-	"version" : "1.0.0",
+	"version" : "2.0.0",
 
     "type" : "module",
 
@@ -32,7 +32,7 @@
 	"dependencies" :
 	{
 		"crc-32" : "1.2.2",
-		"commander" : "11.1.0",
+		"commander" : "12.0.0",
 		"chalk-template" : "1.1.0",
 		"fs-extra" : "11.2.0"
 	},
@@ -43,12 +43,12 @@
 		"eslint-plugin-import" : "2.29.1",
 		"eslint-plugin-promise" : "6.1.1",
 		"eslint-plugin-node" : "11.1.0",
-		"@stylistic/eslint-plugin-js" : "1.6.0",
+		"@stylistic/eslint-plugin-js" : "1.6.2",
 		"eslint-config-protect-me-from-my-stupidity" : "10.0.0",
-        "rollup" : "4.9.6",
+        "rollup" : "4.12.0",
         "@rollup/plugin-terser" : "0.4.4",
-        "mocha" : "10.2.0",
-        "chai" : "5.0.3"
+        "mocha" : "10.3.0",
+        "chai" : "5.1.0"
 	},
 
 	"main" : "bps.cjs",

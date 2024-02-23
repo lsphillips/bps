@@ -1,5 +1,4 @@
 import {
-	printLine,
 	printError,
 	printSuccess
 } from '../output.js';
@@ -17,19 +16,12 @@ export default async function verifyPatchFile (patch)
 	try
 	{
 		const {
-			sourceSize,
-			targetSize,
-			sourceChecksum,
-			targetChecksum,
-			patchChecksum
+			checksum
 		} = parse(
 			await readBinaryFile(patch)
 		);
 
-		printLine(`Expects source file of size ${sourceSize} bytes with checksum ${sourceChecksum}.`);
-		printLine(`Expects target file of size ${targetSize} bytes with checksum ${targetChecksum}.`);
-
-		printSuccess(`Patch has checksum ${patchChecksum} and is valid.`);
+		printSuccess(`Patch has checksum ${checksum} and is valid.`);
 	}
 	catch (error)
 	{

@@ -5,6 +5,7 @@ import {
 } from 'commander';
 import apply from './commands/apply.js';
 import verify from './commands/verify.js';
+import create from './commands/create.js';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -26,6 +27,14 @@ program
 	.argument('<source>', 'the source file to patch')
 	.argument('<output>', 'the location to write the patched file to')
 	.action(apply);
+
+program
+	.command('create')
+	.description('creates a patch from a source and a desired target.')
+	.argument('<source>', 'the source file')
+	.argument('<target>', 'the target file')
+	.argument('<output>', 'the location to write the patch to')
+	.action(create);
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

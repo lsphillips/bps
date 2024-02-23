@@ -12,7 +12,7 @@ This module can be treated as an ES module:
 ``` js
 import * as bps from 'bps';
 // or
-import { parse, apply, ActionType } from 'bps';
+import { parse, apply, build, serialize, ActionType } from 'bps';
 ```
 
 This module can also be treated as a CommonJS module:
@@ -20,28 +20,75 @@ This module can also be treated as a CommonJS module:
 ``` js
 const bps = require('bps');
 // or
-const { parse, apply, ActionType } = require('bps');
+const { parse, apply, build, serialize, ActionType } = require('bps');
 ```
 
 ### Parsing a BPS patch
 
-You can a parse and validate a binary BPS patch:
+You can parse a BPS binary patch into an instruction set:
 
 ``` js
 const file = await fs.readFile('patch.bps', null);
 
 try
 {
-  const patch = parse(file);
+  const {
+    instructions,
+    checksum
+  } = bps.parse(file);
 }
 catch (error)
 {
-  // Throws an error when the patch is invalud, e.g. when
+  // Throws an error when the patch is invalid, e.g. when
   // the patch doesn't have a valid BPS header.
 }
 ```
 
-A patch object will have the following fields:
+### Applying a BPS patch
+
+You can apply an instruction set to a binary source:
+
+``` js
+const source = await fs.readFile('source.txt', null);
+
+try
+{
+  const target = bps.apply(instructions, source);
+}
+catch (error)
+{
+  // Throws an error when the provided source does not
+  // match the checksum stated in the patch instructions.
+}
+```
+
+### Building a BPS patch
+
+You can build an instruction set from a source and a desired target:
+
+``` js
+const instructions = bps.build(
+  await fs.readFile('source.txt', null),
+  await fs.readFile('target.txt', null)
+);
+```
+
+### Serializing a BPS patch
+
+You can serialize an instruction set into a binary BPS buffer:
+
+``` js
+const {
+  buffer,
+  checksum
+} = bps.serialize(instructions);
+
+await fs.writeFile('patch.bps', buffer, null);
+```
+
+### Instruction sets
+
+An instruction set will have the following fields:
 
 | Property         | Type       | Description                                                                     |
 | ---------------- | :--------: | ------------------------------------------------------------------------------- |
@@ -50,44 +97,24 @@ A patch object will have the following fields:
 | `targetSize`     | `number`   | The expected size (in bytes) that the target should be.                         |
 | `targetChecksum` | `number`   | A CRC32 checksum used to verify the target.                                     |
 | `actions`        | `Object[]` | The actions describing how to sequentially create a new target from the source. |
-| `patchChecksum`  | `number`   | A CRC32 checksum used to verify the patch itself.                               |
 
-There are four types of action objects, each with a `type` discriminator property. The four action types are:
+An instruction set compromises of actions, an action results in bytes being appended to the target. Each action has the following properties:
 
-- `ActionType.SourceRead` \
-  Represents an action that copies bytes from the source to the target. These action objects will have the following properties:
-  - `length` - The number of bytes to copy from the source.
-- `ActionType.TargetRead` \
-  Represents an action that writes data stored in the patch to the target. These action objects will have the following properties:
-  - `bytes` - The bytes to write to the target.
-- `ActionType.SourceCopy` \
-  Represents an action that seeks to a location of the source and copies data from that location to the target. These action objects will have the following properties:
-  - `offset` - The amount to move the source relative offset by (can be negative to move backwards).
-  - `length` - The number of bytes to copy from the source.
-- `ActionType.TargetCopy` \
-  Represents an action that seeks to a location of the target and copies data from that location to the target. These action objects will have the following properties:
-  - `offset` - The amount to move the target relative offset by (can be negative to move backwards).
-  - `length` - The number of bytes to copy from the target.
+- `type`\
+  A discriminator property stating what type of action it is.
+- `length`\
+  The number of bytes that the action will write to the target.
 
-### Applying a BPS patch
+The four action types are:
 
-Once you have parsed a BPS patch, you can then apply it to a binary source:
-
-``` js
-const source = await fs.readFile('source.txt', null);
-
-try
-{
-  const target = apply(patch, source);
-}
-catch (error)
-{
-  // Throws an error when the provided source does not
-  // match the checksum stated by the patch.
-}
-```
-
-**Important Note:** The source is not modified! The result is a new binary buffer.
+- `ActionType.SourceRead`\
+  Represents an action that copies a number of bytes from the source to the target.
+- `ActionType.TargetRead`\
+  Represents an action that writes specified bytes to the target. These actions will have an additional property called `bytes` which will be an array of bytes to write to the target.
+- `ActionType.SourceCopy`\
+  Represents an action that seeks to a location (a.k.a. relative offset) in the source and copies a number of bytes from that location to the target. These actions will have an additional property called `offset` which describes the amount to move the source relative offset by, this can be negative to move backwards.
+- `ActionType.TargetCopy`\
+  Represents an action that seeks to a location (a.k.a. relative offset) in the target that has been produced up to this point and copies a number of bytes from that location to the target. These actions will have an additional property called `offset` which describes the amount to move the target relative offset by, this can be negative to move backwards.
 
 ## Getting started
 
@@ -109,13 +136,14 @@ Usage: bps [options] [command]
 A tool for creating and applying BPS patches.
 
 Options:
-  -V, --version                    output the version number
-  -h, --help                       display help for command
+  -V, --version                      output the version number
+  -h, --help                         display help for command
 
 Commands:
-  verify <patch>                   verifies a patch file
-  apply <patch> <source> <output>  applies a patch to a file
-  help [command]                   display help for command
+  verify <patch>                     verifies a patch file
+  apply <patch> <source> <output>    applies a patch to a file
+  create <source> <target> <output>  creates a patch from a source and a desired target.
+  help [command]                     display help for command
 ```
 
 ## Development

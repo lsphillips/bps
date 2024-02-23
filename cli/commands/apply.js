@@ -17,10 +17,14 @@ export default async function applyPatchFile (patch, source, output)
 {
 	try
 	{
+		const {
+			instructions
+		} = parse(
+			await readBinaryFile(patch)
+		);
+
 		const result = apply(
-			parse(
-				await readBinaryFile(patch)
-			),
+			instructions,
 			await readBinaryFile(source)
 		);
 
