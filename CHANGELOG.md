@@ -20,7 +20,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
     targetSize : 0,
     targetChecksum : 0,
     actions : [],
-	  patchChecksum : 0
+    patchChecksum : 0
   }
   ```
   You will instead recieve an object with this structure:
