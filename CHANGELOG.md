@@ -2,12 +2,12 @@
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 2.0.0 - 2024-02-23
+## 2.0.0 - 2024-02-24
 
 ### Added
 
 - Introduced the `bps.build()` function that enables you to build an instruction set from a source and a desired target.
-- Introduced the `bps.serialize()` function that enables you to serialize an instruction set into a binary BPS format.
+- Introduced the `bps.serialize()` function that enables you to serialize an instruction set into a binary BPS buffer.
 - Introduced the `create` command in the CLI tool that enables you to create a BPS patch file from a source file and a desired target file.
 
 ### Changed
