@@ -11,7 +11,7 @@ import create from './commands/create.js';
 
 const program = new Command()
 	.name('bps')
-	.version('1.0.0')
+	.version('2.0.1')
 	.description('A tool for creating and applying BPS patches.');
 
 program
