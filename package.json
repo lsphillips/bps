@@ -47,7 +47,7 @@
 		"eslint-config-protect-me-from-my-stupidity" : "10.1.0",
         "rollup" : "4.13.0",
         "@rollup/plugin-terser" : "0.4.4",
-        "mocha" : "10.3.0",
+        "mocha" : "10.4.0",
         "chai" : "5.1.0"
 	},
 
