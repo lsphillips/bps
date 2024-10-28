@@ -48,7 +48,7 @@
         "rollup" : "4.24.0",
         "@rollup/plugin-terser" : "0.4.4",
         "mocha" : "10.7.3",
-        "chai" : "5.1.1"
+        "chai" : "5.1.2"
 	},
 
 	"main" : "bps.cjs",
