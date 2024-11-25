@@ -45,7 +45,7 @@
 		"eslint-plugin-node" : "11.1.0",
 		"@stylistic/eslint-plugin-js" : "1.8.1",
 		"eslint-config-protect-me-from-my-stupidity" : "10.1.1",
-        "rollup" : "4.27.3",
+        "rollup" : "4.27.4",
         "@rollup/plugin-terser" : "0.4.4",
         "mocha" : "10.8.2",
         "chai" : "5.1.2"
