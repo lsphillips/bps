@@ -1,12 +1,14 @@
 import {
+	describe,
+	it
+} from 'node:test';
+import assert from 'node:assert';
+import {
 	join
-} from 'path';
+} from 'node:path';
 import {
 	readFile
-} from 'fs/promises';
-import {
-	expect
-} from 'chai';
+} from 'node:fs/promises';
 import {
 	parse,
 	apply,
@@ -80,23 +82,21 @@ describe('bps', function ()
 			} = parse(patch);
 
 			// Assert IO sizes.
-			expect(instructions.sourceSize).to.equal(Patch.sourceSize);
-			expect(instructions.targetSize).to.equal(Patch.targetSize);
+			assert.equal(instructions.sourceSize, Patch.sourceSize);
+			assert.equal(instructions.targetSize, Patch.targetSize);
 
 			// Assert IO checksums.
-			expect(instructions.sourceChecksum).to.equal(Patch.sourceChecksum);
-			expect(instructions.targetChecksum).to.equal(Patch.targetChecksum);
+			assert.equal(instructions.sourceChecksum, Patch.sourceChecksum);
+			assert.equal(instructions.targetChecksum, Patch.targetChecksum);
 
 			// Assert actions.
-			expect(instructions.actions).to.have.length(Patch.actions.length);
+			assert.equal(instructions.actions.length, Patch.actions.length);
 
 			// Assert actions.
-			Patch.actions.forEach((action, i) => expect(
-				instructions.actions[i]
-			).to.eql(action));
+			Patch.actions.forEach((action, i) => assert.deepEqual(instructions.actions[i], action));
 
 			// Assert patch checksum.
-			expect(checksum).to.equal(Patch.checksum);
+			assert.equal(checksum, Patch.checksum);
 		});
 
 		it('should throw an error if the patch does not start with the correct BPS header', async function ()
@@ -105,7 +105,7 @@ describe('bps', function ()
 			const file = await readFixtureAsBinary('patch-with-incorrect-header.bps');
 
 			// Act & Assert.
-			expect(() => parse(file)).to.throw(Error);
+			assert.throws(() => parse(file));
 		});
 
 		it('should throw an error if the patch does not match the embedded checksum', async function ()
@@ -114,7 +114,7 @@ describe('bps', function ()
 			const file = await readFixtureAsBinary('patch-with-invalid-checksum.bps');
 
 			// Act & Assert.
-			expect(() => parse(file)).to.throw(Error);
+			assert.throws(() => parse(file));
 		});
 	});
 
@@ -134,9 +134,7 @@ describe('bps', function ()
 			const target = apply(instructions, source);
 
 			// Assert.
-			expect(
-				bytesToString(target)
-			).to.equal(Patch.target);
+			assert.equal(bytesToString(target), Patch.target);
 		});
 
 		it('should throw an error if the source does not match the checksum stated in the instruction set', async function ()
@@ -150,7 +148,7 @@ describe('bps', function ()
 			);
 
 			// Act & Assert.
-			expect(() => apply(patch, source)).to.throw(Error);
+			assert.throws(() => apply(patch, source));
 		});
 
 		it('should throw an error if the result does not match the checksum stated in the instruction set', async function ()
@@ -164,7 +162,7 @@ describe('bps', function ()
 			);
 
 			// Act & Assert.
-			expect(() => apply(patch, source)).to.throw(Error);
+			assert.throws(() => apply(patch, source));
 		});
 	});
 
@@ -180,20 +178,18 @@ describe('bps', function ()
 			const instructions = build(source, target);
 
 			// Assert IO sizes.
-			expect(instructions.sourceSize).to.equal(Patch.sourceSize);
-			expect(instructions.targetSize).to.equal(Patch.targetSize);
+			assert.equal(instructions.sourceSize, Patch.sourceSize);
+			assert.equal(instructions.targetSize, Patch.targetSize);
 
 			// Assert IO checksums.
-			expect(instructions.sourceChecksum).to.equal(Patch.sourceChecksum);
-			expect(instructions.targetChecksum).to.equal(Patch.targetChecksum);
+			assert.equal(instructions.sourceChecksum, Patch.sourceChecksum);
+			assert.equal(instructions.targetChecksum, Patch.targetChecksum);
 
 			// Assert actions.
-			expect(instructions.actions).to.have.length(Patch.actions.length);
+			assert.equal(instructions.actions.length, Patch.actions.length);
 
 			// Assert actions.
-			Patch.actions.forEach((action, i) => expect(
-				instructions.actions[i]
-			).to.eql(action));
+			Patch.actions.forEach((action, i) => assert.deepEqual(instructions.actions[i], action));
 		});
 	});
 
@@ -217,10 +213,10 @@ describe('bps', function ()
 			});
 
 			// Assert checksum.
-			expect(checksum).to.equal(Patch.checksum);
+			assert.equal(checksum, Patch.checksum);
 
 			// Assert buffer.
-			expect(buffer).to.deep.equal(patch);
+			assert.deepEqual(buffer, patch);
 		});
 	});
 });
