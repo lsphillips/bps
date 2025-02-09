@@ -1,57 +1,55 @@
 {
-	"name" : "bps",
+    "name" : "bps",
 
-	"version" : "2.0.1",
+    "version" : "2.0.1",
 
     "type" : "module",
 
     "description" : "A library and CLI tool for creating and applying BPS patches.",
 
-	"author" : "Luke Phillips",
+    "author" : "Luke Phillips",
 
-	"keywords" :
-	[
-		"binary",
-		"patch",
-		"rom"
-	],
+    "keywords" :
+    [
+        "binary",
+        "patch",
+        "rom"
+    ],
 
-	"homepage" : "https://github.com/lsphillips/bps",
+    "homepage" : "https://github.com/lsphillips/bps",
 
-	"bugs" :
-	{
-		"url" : "https://github.com/lsphillips/bps/issues"
-	},
+    "bugs" :
+    {
+        "url" : "https://github.com/lsphillips/bps/issues"
+    },
 
-	"repository" :
-	{
-		"type" : "git",
-		"url" : "https://github.com/lsphillips/bps.git"
-	},
+    "repository" :
+    {
+        "type" : "git",
+        "url" : "https://github.com/lsphillips/bps.git"
+    },
 
-	"dependencies" :
-	{
-		"crc-32" : "1.2.2",
-		"commander" : "12.1.0",
-		"chalk-template" : "1.1.0",
-		"fs-extra" : "11.2.0"
-	},
+    "dependencies" :
+    {
+        "crc-32" : "1.2.2",
+        "commander" : "13.1.0",
+        "chalk-template" : "1.1.0",
+        "fs-extra" : "11.3.0"
+    },
 
-	"devDependencies" :
-	{
-		"eslint" : "8.57.1",
-		"eslint-plugin-import" : "2.31.0",
-		"eslint-plugin-promise" : "6.6.0",
-		"eslint-plugin-node" : "11.1.0",
-		"@stylistic/eslint-plugin-js" : "1.8.1",
-		"eslint-config-protect-me-from-my-stupidity" : "10.1.1",
-        "rollup" : "4.34.1",
-        "@rollup/plugin-terser" : "0.4.4",
-        "mocha" : "10.8.2",
-        "chai" : "5.1.2"
-	},
+    "devDependencies" :
+    {
+        "eslint" : "9.20.0",
+        "eslint-plugin-import" : "2.31.0",
+        "eslint-plugin-promise" : "7.2.1",
+        "eslint-plugin-n" : "17.15.1",
+        "@stylistic/eslint-plugin-js" : "3.1.0",
+        "eslint-config-protect-me-from-my-stupidity" : "13.0.1",
+        "rollup" : "4.34.6",
+        "@rollup/plugin-terser" : "0.4.4"
+    },
 
-	"main" : "bps.cjs",
+    "main" : "bps.cjs",
 
     "exports" :
     {
@@ -64,37 +62,37 @@
         "default" : "./bps.js"
     },
 
-	"files" :
+    "files" :
     [
         "/README.md",
         "/CHANGELOG.md",
         "/LICENSE.txt",
         "/bps.js",
         "/bps.cjs",
-		"/bps.cli.js",
+        "/bps.cli.js",
         "/bps.d.ts"
     ],
 
-	"bin" :
-	{
-		"bps" : "bps.cli.js"
-	},
+    "bin" :
+    {
+        "bps" : "bps.cli.js"
+    },
 
-	"scripts" :
-	{
-		"test:lint" : "eslint \"**/*.js\" --ignore-path .gitignore",
-        "test:unit" : "mocha \"tests/**/*.test.js\"",
+    "scripts" :
+    {
+        "test:lint" : "eslint \"**/*.js\"",
+        "test:unit" : "node --test",
         "test" : "npm run test:lint && npm run test:unit",
         "build" : "rollup --config",
         "prepack" : "npm run test && npm run build"
-	},
+    },
 
-	"license" : "MIT",
+    "license" : "MIT",
 
-	"engines" :
-	{
-		"node" : ">=18.0.0"
-	},
+    "engines" :
+    {
+        "node" : ">=18.0.0"
+    },
 
-	"types" : "bps.d.ts"
+    "types" : "bps.d.ts"
 }
