@@ -45,7 +45,7 @@
         "eslint-plugin-n" : "17.15.1",
         "@stylistic/eslint-plugin-js" : "3.1.0",
         "eslint-config-protect-me-from-my-stupidity" : "13.0.1",
-        "rollup" : "4.34.8",
+        "rollup" : "4.34.9",
         "@rollup/plugin-terser" : "0.4.4"
     },
 
