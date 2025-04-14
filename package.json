@@ -42,7 +42,7 @@
         "eslint" : "9.24.0",
         "eslint-plugin-n" : "17.17.0",
         "eslint-config-protect-me-from-my-stupidity" : "15.0.0",
-        "rollup" : "4.39.0",
+        "rollup" : "4.40.0",
         "@rollup/plugin-terser" : "0.4.4"
     },
 
