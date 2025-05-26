@@ -39,7 +39,7 @@
 
     "devDependencies" :
     {
-        "eslint" : "9.26.0",
+        "eslint" : "9.27.0",
         "eslint-plugin-n" : "17.18.0",
         "eslint-config-protect-me-from-my-stupidity" : "15.0.0",
         "rollup" : "4.41.1",
