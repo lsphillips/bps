@@ -33,7 +33,7 @@
     {
         "crc-32" : "1.2.2",
         "commander" : "14.0.0",
-        "chalk-template" : "1.1.0",
+        "chalk-template" : "1.1.2",
         "fs-extra" : "11.3.1"
     },
 
