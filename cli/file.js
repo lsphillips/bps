@@ -1,7 +1,12 @@
 import {
-	resolve
+	resolve,
+	dirname
 } from 'node:path';
-import fs from 'fs-extra';
+import {
+	readFile,
+	mkdir,
+	writeFile
+} from 'node:fs/promises';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -9,7 +14,7 @@ export async function readBinaryFile (file)
 {
 	try
 	{
-		return fs.readFile(file, null);
+		return readFile(file, null);
 	}
 	catch
 	{
@@ -23,7 +28,13 @@ export async function writeBinaryFile (file, data)
 {
 	try
 	{
-		await fs.outputFile(file, data, null);
+		const directory = dirname(file);
+
+		await mkdir(directory, {
+			recursive : true
+		});
+
+		await writeFile(file, data, null);
 	}
 	catch
 	{
