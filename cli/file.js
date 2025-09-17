@@ -6,7 +6,7 @@ import {
 	readFile,
 	mkdir,
 	writeFile
-} from 'node:fs';
+} from 'node:fs/promises';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
