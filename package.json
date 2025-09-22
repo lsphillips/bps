@@ -38,7 +38,7 @@
     "devDependencies" :
     {
         "eslint" : "9.35.0",
-        "eslint-plugin-n" : "17.22.0",
+        "eslint-plugin-n" : "17.23.1",
         "eslint-config-protect-me-from-my-stupidity" : "15.1.0",
         "rollup" : "4.50.1",
         "@rollup/plugin-terser" : "0.4.4"
