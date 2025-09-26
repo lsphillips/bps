@@ -32,14 +32,13 @@
     "dependencies" :
     {
         "crc-32" : "1.2.2",
-        "commander" : "14.0.0"
+        "commander" : "14.0.1"
     },
 
     "devDependencies" :
     {
-        "eslint" : "9.35.0",
-        "eslint-plugin-n" : "17.22.0",
-        "eslint-config-protect-me-from-my-stupidity" : "15.1.0",
+        "eslint" : "9.36.0",
+        "eslint-config-protect-me-from-my-stupidity" : "16.0.0",
         "rollup" : "4.50.1",
         "@rollup/plugin-terser" : "0.4.4"
     },
